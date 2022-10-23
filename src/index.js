@@ -19,11 +19,11 @@ app.use(morgan('combined'))
 app.engine('hbs', engine({
   extname: '.hbs'     //defautl đuôi nó là handlebars, nhưng mình đặt "hbs" cho nó ngắn gọn
 }));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+    app.set("view engine", 'hbs');
+            app.set('views', path.join(__dirname, 'resources/views'));
 
 // Rroute init
-route(app);
+              route(app);
 
 // app.get('/news', (req, res) => {
 //         res.render('views');
