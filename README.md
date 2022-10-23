@@ -13,4 +13,7 @@
     - npm install prettier --save-dev  (format làm đẹp code)
     - npm install lint-staged --save-dev  (tạo pipeline trung gian để chạy code mỗi khi commit git)
     - npm install husky --save-dev (Chỉ cần commit code, thì code sẽ chạy cái lint--staged )
-8. dsf
+8. mongoose (https://github.com/Automattic/mongoose)
+    - mô hình hóa database dưới dạng đối tượng, tăng tính chặt chễ cho mongo database
+    
+9. asdf
