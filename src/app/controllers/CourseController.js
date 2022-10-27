@@ -1,4 +1,5 @@
 const Course = require('./models/Course');
+
 const {
     mongooseToObject,
     multipleMongooseToObject,
@@ -14,6 +15,22 @@ class CourseController {
                 });
             })
             .catch(next);
+    }
+
+    //[GET] /courses/create
+    create(req, res, next) {
+        res.render('courses/create');
+    }
+
+    //[POST] /courses/store
+    store(req, res, next) {
+        const course = new Course(req.body);
+        course
+            .save()
+            .then(() => res.redirect('/'))
+            .catch((error) => {
+                //a
+            });
     }
 }
 
