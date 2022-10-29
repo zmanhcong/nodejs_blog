@@ -22,7 +22,7 @@ class SiteController {
     //     });
     // }
 
-    //output data by promiss
+    //output data by promiss    ---   Show all course at home
     index(req, res, next) {
         Course.find({})
             .then((courses) => {
@@ -33,7 +33,7 @@ class SiteController {
             .catch(next);
     }
 
-    //[GET] /search
+    //[GET] /search    ---   search course
     search(req, res) {
         res.render('search');
     }

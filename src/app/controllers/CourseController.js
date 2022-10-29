@@ -6,7 +6,7 @@ const {
 } = require('../../util/mongoose');
 
 class CourseController {
-    //[GET] /courses/:slug
+    //[GET] /courses/:slug    ---   show detai of course
     show(req, res, next) {
         Course.findOne({ slug: req.params.slug })
             .then((course) => {
@@ -17,23 +17,23 @@ class CourseController {
             .catch(next);
     }
 
-    //[GET] /courses/create
+    //[GET] /courses/create    ---   create new course
     create(req, res, next) {
         res.render('courses/create');
     }
 
-    //[POST] /courses/store
+    //[POST] /courses/store   ---   create new course
     store(req, res, next) {
         const course = new Course(req.body);
         course
             .save()
-            .then(() => res.redirect('/'))
+            .then(() => res.redirect('/me/stored/courses'))
             .catch((error) => {
                 //a
             });
     }
 
-    //[GET] /courses/:id/edit
+    //[GET] /courses/:id/edit    ---   Edit course
     edit(req, res, next) {
         Course.findById(req.params.id)
             .then((course) =>
@@ -44,16 +44,30 @@ class CourseController {
             .catch(next);
     }
 
-    //[PUT] /courses/:id
+    //[PUT] /courses/:id    ---   Update course
     update(req, res, next) {
         Course.updateOne({ _id: req.params.id }, req.body)
             .then(() => res.redirect('/me/stored/courses'))
             .catch(next);
     }
 
-    //[DELETE] /courses/:id
+    //[DELETE] /courses/:id    ---   Soft delete course
     destroy(req, res, next) {
+        Course.delete({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    //[DELETE] /courses/:id/force    ---   Permanently delete course
+    forceDelete(req, res, next) {
         Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    //[PATCH] /courses/:id/restore    ---   restore course
+    restore(req, res, next) {
+        Course.restore({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next);
     }

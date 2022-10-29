@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div>
-        <h3>My courses</h3>
-        <a href="/me/trash/courses">ゴミ箱</a>
+        <a href="/me/stored/courses">Course list</a>
+        <h3>Trash courses</h3>
     </div>
     <table class="table mt-4">
         <thead>
@@ -21,15 +21,15 @@
                 <td>{{this.slug}}</td>
                 <td>{{this.createdAt}}</td>
                 <td>
-                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Edit</a>
-                    <a href="" class="btn btn-link " data-toggle="modal" data-target="#delete-course-modal" data-id="{{this._id}}">Delete</a>
+                    <a href="" class="btn btn-link btnRestore" id="restoreCourse" data-id="{{this._id}}">Recovery</a>
+                    <a href="" class="btn btn-link " data-toggle="modal" data-target="#delete-course-modal" data-id="{{this._id}}">Permanently delete</a>
                 </td>
             </tr>
             {{else}}
             <tr>
                 <td colspan="5" class="text-center"> 
-                    You have no any course!!  <br>
-                    Click <a href="/courses/create">here</a> to create new course.
+                    Trash is null!! 
+                     <a href="me/stored/courses">Back to list</a>
                 </td>
             </tr>
             {{/each}}
@@ -55,7 +55,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Are you trully want to delete?
+        Are you trully want to permanently delete?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -67,22 +67,40 @@
 
 {{!-- Delete hiddent form --}}
 <form name="deleteCourseForm" method="POST""></form>
+<form name="restoreCourseForm" method="POST""></form>
 
 <script>
-    // because we use "$", it mean Jquery, it has error show on console dev tool. so we use document.addeventlister for load all js,jquery code done -> run this code.
+    //{{!--because we use "$", it mean Jquery, it has error show on console dev tool. so we use document.addeventlister for load all js,jquery code done -> run this code. --}}
     document.addEventListener('DOMContentLoaded', function(){
         var courseId;
         var btnDeleteCourse = document.getElementById ('btnDeleteCourse');
+        //var restoreCourse = document.getElementById ('restoreCourse');
         var deleteForm = document.forms['deleteCourseForm'];
+        var estoreForm = document.forms['restoreCourseForm'];
+
+        //{{!-- Soft delete用 --}}
+        var btnRestore = $('.btnRestore')   //{{!-- lấy ra được all cái btnRestore--}}
 
         $('#delete-course-modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         courseId = button.data('id') // Extract info from data-* attributes
         })
 
+        //Permanently delete
         btnDeleteCourse.onclick = function(){
-            deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
+            deleteForm.action = '/courses/' + courseId + '/force'+ '?_method=DELETE';
             deleteForm.submit()
         }
+
+        //{{!-- Restore btn clicked --}}
+        btnRestore.click(function (e){
+          e.preventDefault();
+          var courseId = $(this).data('id')
+        console.log(courseId)
+
+          estoreForm.action = '/courses/' + courseId + '/restore' +'?_method=PATCH';
+          estoreForm.submit()
+        })
+        
     })
 </script>
