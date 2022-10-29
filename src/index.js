@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
+const methodOverride = require('method-override');
 // const { extname } = require('path');
 // const exp = require('constants');
 // const { execPath } = require('process');
@@ -19,6 +20,9 @@ app.use(express.urlencoded({ extended: true })); //xử lý data gửi từ form
 app.use(express.json()); //form gửi dưới dạng post/get json
 //HTTP logger
 app.use(morgan('combined'));
+
+//Use PUT, DELETE mothod in client, where default doesn't support
+app.use(methodOverride('_method'));
 
 //template engine
 app.engine(
